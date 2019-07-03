@@ -266,6 +266,11 @@ module ActiveRecord
     end
 
     private
+
+      def validate_on_create?(association_name)
+        nested_attributes_options.fetch(association_name, {}).fetch(:validate_on_create, false)
+      end
+
       # Returns the record for an association collection that should be validated
       # or saved. If +autosave+ is +false+ only new records will be returned,
       # unless the parent is/was a new record itself.
@@ -396,7 +401,7 @@ module ActiveRecord
 
               if autosave != false && (new_record_before_save || record.new_record?)
                 if autosave
-                  saved = association.insert_record(record, false)
+                  saved = association.insert_record(record, validate_on_create?(reflection.name))
                 elsif !reflection.nested?
                   association_saved = association.insert_record(record)
 

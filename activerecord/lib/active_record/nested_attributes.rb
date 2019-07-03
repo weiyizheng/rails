@@ -333,7 +333,7 @@ module ActiveRecord
       def accepts_nested_attributes_for(*attr_names)
         options = { allow_destroy: false, update_only: false }
         options.update(attr_names.extract_options!)
-        options.assert_valid_keys(:allow_destroy, :reject_if, :limit, :update_only)
+        options.assert_valid_keys(:allow_destroy, :reject_if, :limit, :update_only, :validate_on_create)
         options[:reject_if] = REJECT_ALL_BLANK_PROC if options[:reject_if] == :all_blank
 
         attr_names.each do |association_name|
